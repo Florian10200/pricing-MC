@@ -22,30 +22,30 @@ double generateN01() {
     return nb;
 }
 
-Option::Option(double st, double sp, double vol, double mat, double tx) {
+europeanOption::europeanOption(double st, double sp, double vol, double mat, double tx) {
     this -> strike = st;
     this -> spot = sp;
     this -> volatility = vol;
     this -> maturity = mat;
     this -> txinteret = tx;}
 
-double Option::get_strike() {
+double europeanOption::get_strike() {
     return strike;}
 
-double Option::get_spot() {
+double europeanOption::get_spot() {
     return spot;}
 
-double Option::get_volatility() {
+double europeanOption::get_volatility() {
     return volatility;}
 
-double Option::get_maturity() {
+double europeanOption::get_maturity() {
     return maturity;}
 
-double Option::get_tx() {
+double europeanOption::get_tx() {
     return txinteret;}
 
 
-double Option::pricing_european_call_BS() { //pricing european call par BS
+double europeanOption::pricing_european_call_BS() { //pricing european call par BS
     double T = maturity;
     double S0 = spot;
     double K = strike;
@@ -60,14 +60,30 @@ double Option::pricing_european_call_BS() { //pricing european call par BS
     
     double prix_call_BS = S0 * Nd1 - K * exp(-r*T) * Nd2;
 
-    cout << "prix du european call par BS est : " << prix_call_BS << endl;
+    cout << "prix du european call par BS est : ";
     
-    cout << "delta_call : " << Nd1 << endl;
-    
-    return 0;
+    return prix_call_BS;
 }
 
-double Option::pricing_european_put_BS() { //pricing european put par BS
+
+double europeanOption::delta_european_call() {
+    double T = maturity;
+    double S0 = spot;
+    double K = strike;
+    double sigma = volatility;
+    double r = txinteret;
+
+    double d1 = (log(S0/K) + (r + pow(sigma, 2)/2.0)*T)/(sigma*sqrt(T));
+    
+    double Nd1 = normalCDF(d1);
+    
+    cout << "stratégie de réplication pour un call : delta = ";
+    
+    return Nd1;
+}
+
+
+double europeanOption::pricing_european_put_BS() { //pricing european put par BS
     double T = maturity;
     double S0 = spot;
     double K = strike;
@@ -82,15 +98,30 @@ double Option::pricing_european_put_BS() { //pricing european put par BS
     
     double prix_put_BS = S0 * (Nd1 - 1) - K * exp(-r*T) * (Nd2 -1);
 
-    cout << "prix du european put par BS est : " << prix_put_BS << endl;
-
-    cout << "delta_put : " << Nd1 -1 << endl;
+    cout << "prix du european put par BS est : ";
     
-    
-    return 0;
+    return prix_put_BS;
 }
 
-double Option::pricing_european_call_MC(int N) { //pricing european call par MC
+
+double europeanOption::delta_european_put() {
+    double T = maturity;
+    double S0 = spot;
+    double K = strike;
+    double sigma = volatility;
+    double r = txinteret;
+
+    double d1 = (log(S0/K) + (r + pow(sigma, 2)/2.0)*T)/(sigma*sqrt(T));
+    
+    double Nd1 = normalCDF(d1);
+    
+    cout << "stratégie de réplication pour un put : delta = ";
+    
+    return Nd1 - 1;
+}
+
+
+double europeanOption::pricing_european_call_MC(int N) { //pricing european call par MC
     double T = maturity;
     double S0 = spot;
     double K = strike;
@@ -108,13 +139,13 @@ double Option::pricing_european_call_MC(int N) { //pricing european call par MC
     
     double prix = sumPayoff/N*exp(-r*T);
     
-    cout << "prix du european call par MC est : " << prix << endl;
+    cout << "prix du european call par MC est : ";
     
-    return 0;
+    return prix;
 }
 
 
-double Option::pricing_european_put_MC(int N) { //pricing european put par MC
+double europeanOption::pricing_european_put_MC(int N) { //pricing european put par MC
     double T = maturity;
     double S0 = spot;
     double K = strike;
@@ -132,13 +163,13 @@ double Option::pricing_european_put_MC(int N) { //pricing european put par MC
     
     double prix = sumPayoff/N*exp(-r*T);
     
-    cout << "prix du european put par MC est : " << prix << endl;
+    cout << "prix du european put par MC est : ";
     
-    return 0;
+    return prix;
 }
 
 
-double Option::pricing_american_call_MC(int N) { //pricing american call par MC
+double europeanOption::pricing_american_call_MC(int N) { //pricing american call par MC
     double T = maturity;
     double S0 = spot;
     double K = strike;
@@ -169,13 +200,13 @@ double Option::pricing_american_call_MC(int N) { //pricing american call par MC
     
     double prix = sumPayoff/N*exp(-r*T);
     
-    cout << "prix du american call par MC est : " << prix << endl;
+    cout << "prix du american call par MC est : ";
     
-    return 0;
+    return prix;
 }
 
 
-double Option::pricing_american_put_MC(int N) { //pricing american put par MC
+double europeanOption::pricing_american_put_MC(int N) { //pricing american put par MC
     double T = maturity;
     double S0 = spot;
     double K = strike;
@@ -206,6 +237,7 @@ double Option::pricing_american_put_MC(int N) { //pricing american put par MC
     
     double prix = sumPayoff/N*exp(-r*T);
     
-    cout << "prix du american put par MC est : " << prix << endl;    
-    return 0;
+    cout << "prix du american put par MC est : ";    
+    
+    return prix;
 }
