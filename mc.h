@@ -8,7 +8,7 @@ double normalCDF(double x);
 
 double generateN01(); 
 
-class Option {
+class europeanOption {
 private:
     double strike; //in $
     double spot; //in $
@@ -16,7 +16,7 @@ private:
     double maturity; //in years
     double txinteret; //in %
 public:
-    Option (double st, double sp, double vol, double maturity, double tx); //constructeur
+    europeanOption (double st, double sp, double vol, double maturity, double tx); //constructeur
     double get_strike(); //recupere la valeur du strike
     double get_spot(); //recupere la valeur du spot
     double get_volatility(); //recupere la valeur de la volatilite
@@ -25,6 +25,9 @@ public:
     
     double pricing_european_call_BS(); //pricing european call par BS
     double pricing_european_put_BS(); //pricing european put par BS
+    
+    double delta_european_call(); //calcul du delta pour un european call
+    double delta_european_put(); //calcul du delta pour un european put
     
     double pricing_european_call_MC(int N); //pricing european call par MC, N le nombre de trajectoires
     double pricing_european_put_MC(int N); //pricing european put par MC, N le nombre de trajectoires
