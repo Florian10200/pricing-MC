@@ -1,0 +1,34 @@
+#include <iostream>
+#include <math.h>
+#include <random>
+
+using namespace std;
+
+double normalCDF(double x);
+
+double generateN01(); 
+
+class Option {
+private:
+    double strike; //in $
+    double spot; //in $
+    double volatility; //in %
+    double maturity; //in years
+    double txinteret; //in %
+public:
+    Option (double st, double sp, double vol, double maturity, double tx); //constructeur
+    double get_strike(); //recupere la valeur du strike
+    double get_spot(); //recupere la valeur du spot
+    double get_volatility(); //recupere la valeur de la volatilite
+    double get_maturity(); //recupere la valeur de la maturite
+    double get_tx(); //recupere la valeur du tx d'interet
+    
+    double pricing_european_call_BS(); //pricing european call par BS
+    double pricing_european_put_BS(); //pricing european put par BS
+    
+    double pricing_european_call_MC(int N); //pricing european call par MC, N le nombre de trajectoires
+    double pricing_european_put_MC(int N); //pricing european put par MC, N le nombre de trajectoires
+    
+    double pricing_american_call_MC(int N); //pricing american call par MC, N le nombre de trajectoires
+    double pricing_american_put_MC(int N); //pricing american put par MC, N le nombre de trajectoires
+};
