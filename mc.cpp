@@ -5,22 +5,28 @@
 
 using namespace std;
 
+
+
+// FONCTIONS GENERALES --------------------------------------------------
+
 double normalCDF(double x) { //cdf de la loi normale centrée réduite
    return 0.5 * erfc(-x * sqrt(0.5));
 }
 
-double generateN01() {
-    //initialisation du générateur de nombres aléatoires avec une graine
-    random_device rd;
+double generateN01() { //générateur de nombres aléatoires
+    random_device rd; //initialisation avec une graine
     mt19937 generator(rd());
 
-    //définition de la distribution normale avec une moyenne de 0 et un écart-type de 1
-    normal_distribution<double> distribution(0.0, 1.0);
+    normal_distribution<double> distribution(0.0, 1.0); //distribution normale avec une moyenne de 0 et un écart-type de 1
 
     double nb = distribution(generator);
 
     return nb;
 }
+
+
+
+//EUROPEAN OPTIONS --------------------------------------------------
 
 europeanOption::europeanOption(double st, double sp, double vol, double mat, double tx) {
     this -> strike = st;
@@ -169,75 +175,95 @@ double europeanOption::pricing_european_put_MC(int N) { //pricing european put p
 }
 
 
-double europeanOption::pricing_american_call_MC(int N) { //pricing american call par MC
+
+//LOOKBACK (flottant) OPTIONS --------------------------------------------------
+
+lookbackOption::lookbackOption(double sp, double vol, double mat, double tx) {
+    this -> spot = sp;
+    this -> volatility = vol;
+    this -> maturity = mat;
+    this -> txinteret = tx;}
+
+double lookbackOption::get_spot() {
+    return spot;}
+
+double lookbackOption::get_volatility() {
+    return volatility;}
+
+double lookbackOption::get_maturity() {
+    return maturity;}
+
+double lookbackOption::get_tx() {
+    return txinteret;}
+    
+    
+double lookbackOption::pricing_lookback_call_MC(int N) { //pricing lookback call par MC
     double T = maturity;
     double S0 = spot;
-    double K = strike;
     double sigma = volatility;
     double r = txinteret;
     
     double dt = 1.0 / 365.0; //un pas correspond à un jour, on actualise le prix du sous jacent chaque jour
     double S_jdt; //prix du sous jacent à j*dt
     double sumPayoff = 0.0;
-    double maxPayoff = 0.0;
+    double minSt = 0.0;
     double payoff;
     
-    for (int i = 0; i < N; ++i) { //pour chaque trajectoire on calcul le spot maximum
+    for (int i = 0; i < N; i++) { //pour chaque trajectoire on calcul le prix minimum atteint
         
-        double maxSpot = S0; //on réinitialise la valeur du maxSpot à 0 pour chaque trajectoire
+        double minSt = S0; //on réinitialise la valeur du prix min à t=0 pour chaque trajectoire
         for (int j = 0; j < T*365; ++j) {
             double z = generateN01();
             S_jdt = S0*exp((r-pow(sigma, 2)/2.0)*(j*dt) + sigma*sqrt(j*dt)*z);
             
-            if (S_jdt > maxSpot) {
-                maxSpot = S_jdt;
+            if (S_jdt < minSt) {
+                minSt = S_jdt;
             }
         }
         
-        payoff = max(S_jdt - K, 0.0);
+        payoff = max(S_jdt - minSt, 0.0); //max(prix à maturité - prix min, 0)
         sumPayoff = sumPayoff + payoff;
     }
     
     double prix = sumPayoff/N*exp(-r*T);
     
-    cout << "prix du american call par MC est : ";
+    cout << "prix du lookback call par MC est : ";
     
     return prix;
 }
 
 
-double europeanOption::pricing_american_put_MC(int N) { //pricing american put par MC
+double lookbackOption::pricing_lookback_put_MC(int N) { //pricing lookbackput par MC
     double T = maturity;
     double S0 = spot;
-    double K = strike;
     double sigma = volatility;
     double r = txinteret;
     
     double dt = 1.0 / 365.0; //un pas correspond à un jour, on actualise le prix du sous jacent chaque jour
     double S_jdt; //prix du sous jacent à j*dt
     double sumPayoff = 0.0;
-    double maxPayoff = 0.0;
+    double maxSt = 0.0;
     double payoff;
     
-    for (int i = 0; i < N; ++i) { //pour chaque trajectoire on calcul le spot minimum
+    for (int i = 0; i < N; i++) { //pour chaque trajectoire on calcul le prix maximum atteint
         
-        double minSpot = S0; //on réinitialise la valeur du minSpot à 0 pour chaque trajectoire
+        double minSt = S0; //on réinitialise la valeur du prix max à t=0 pour chaque trajectoire
         for (int j = 0; j < T*365; ++j) {
             double z = generateN01();
             S_jdt = S0*exp((r-pow(sigma, 2)/2.0)*(j*dt) + sigma*sqrt(j*dt)*z);
             
-            if (S_jdt < minSpot) {
-                minSpot = S_jdt;
+            if (S_jdt > maxSt) {
+                maxSt = S_jdt;
             }
         }
         
-        payoff = max(K - S_jdt, 0.0);
+        payoff = max(maxSt - S_jdt, 0.0); //max(prix max - prix à maturité, 0)
         sumPayoff = sumPayoff + payoff;
     }
     
     double prix = sumPayoff/N*exp(-r*T);
     
-    cout << "prix du american put par MC est : ";    
+    cout << "prix du lookback put par MC est : ";
     
     return prix;
 }
