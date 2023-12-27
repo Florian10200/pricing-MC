@@ -206,12 +206,12 @@ double lookbackOption::pricing_lookback_call_MC(int N) { //pricing lookback call
     double dt = 1.0 / 365.0; //un pas correspond à un jour, on actualise le prix du sous jacent chaque jour
     double S_jdt; //prix du sous jacent à j*dt
     double sumPayoff = 0.0;
-    double minSt = 0.0;
+    double minSt;
     double payoff;
     
     for (int i = 0; i < N; i++) { //pour chaque trajectoire on calcul le prix minimum atteint
         
-        double minSt = S0; //on réinitialise la valeur du prix min à t=0 pour chaque trajectoire
+        minSt = S0; //on réinitialise la valeur du prix min à t=0 pour chaque trajectoire
         for (int j = 0; j < T*365; ++j) {
             double z = generateN01();
             S_jdt = S0*exp((r-pow(sigma, 2)/2.0)*(j*dt) + sigma*sqrt(j*dt)*z);
@@ -242,12 +242,12 @@ double lookbackOption::pricing_lookback_put_MC(int N) { //pricing lookbackput pa
     double dt = 1.0 / 365.0; //un pas correspond à un jour, on actualise le prix du sous jacent chaque jour
     double S_jdt; //prix du sous jacent à j*dt
     double sumPayoff = 0.0;
-    double maxSt = 0.0;
+    double maxSt;
     double payoff;
     
     for (int i = 0; i < N; i++) { //pour chaque trajectoire on calcul le prix maximum atteint
         
-        double minSt = S0; //on réinitialise la valeur du prix max à t=0 pour chaque trajectoire
+        maxSt = S0; //on réinitialise la valeur du prix max à t=0 pour chaque trajectoire
         for (int j = 0; j < T*365; ++j) {
             double z = generateN01();
             S_jdt = S0*exp((r-pow(sigma, 2)/2.0)*(j*dt) + sigma*sqrt(j*dt)*z);
