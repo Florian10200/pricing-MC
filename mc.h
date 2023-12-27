@@ -8,7 +8,7 @@ double normalCDF(double x);
 
 double generateN01(); 
 
-class europeanOption {
+class europeanOption { //european option, sans dividende
 private:
     double strike; //in $
     double spot; //in $
@@ -31,7 +31,24 @@ public:
     
     double pricing_european_call_MC(int N); //pricing european call par MC, N le nombre de trajectoires
     double pricing_european_put_MC(int N); //pricing european put par MC, N le nombre de trajectoires
+};
+
+class lookbackOption { //lookback flottant, sans dividende
+private: //pas de strike
+    double spot; //in $
+    double volatility; //in %
+    double maturity; //in years
+    double txinteret; //in %
+public:
+    lookbackOption (double sp, double vol, double maturity, double tx); //constructeur d'un lookback flottant
     
-    double pricing_american_call_MC(int N); //pricing american call par MC, N le nombre de trajectoires
-    double pricing_american_put_MC(int N); //pricing american put par MC, N le nombre de trajectoires
+    double get_strike(); //recupere la valeur du strike
+    double get_spot(); //recupere la valeur du spot
+    double get_volatility(); //recupere la valeur de la volatilite
+    double get_maturity(); //recupere la valeur de la maturite
+    double get_tx(); //recupere la valeur du tx d'interet
+    
+    double pricing_lookback_call_MC(int N); //pricing lookback call par MC, N le nombre de trajectoires
+    double pricing_lookback_put_MC(int N); //pricing lookback put par MC, N le nombre de trajectoires
+    
 };
