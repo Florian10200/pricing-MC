@@ -21,6 +21,127 @@ double barrierOption::get_S0(){
     return S0;
 }
 
+double normalCDF(double x) { //cdf de la loi normale centrée réduite
+   return 0.5 * erfc(-x * sqrt(0.5));
+}
+
+double generateN01() { //générateur de nombres aléatoires
+    random_device rd; //initialisation avec une graine
+    mt19937 generator(rd());
+
+    normal_distribution<double> distribution(0.0, 1.0); //distribution normale avec une moyenne de 0 et un écart-type de 1
+
+    double nb = distribution(generator);
+
+    return nb;
+}
+
+double barrierOption::simassetPrice(){//simule le prix de l'asset
+    double dt = this->T/365;
+    double z = sqrt(dt) * static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
+    double ST = this->S0*exp((this->r-pow(this->sigma, 2)/2.0)*this->T + this->sigma*z);
+    return ST;
+}
+
+double barrierOption::MC2(string type, int N){//montecarlo de chat
+    double total=0.0;
+    for (int i = 0; i < N; ++i) {
+        double ST = simassetPrice();
+        double payoff = barrierPayoff(type, ST);
+        total+=payoff;
+    }
+    double avg = total/static_cast<double>(N);
+    cout<<"Le prix de l'option avec MC2 est "<< avg*exp(-this->r*this->T)<<endl;
+    return 0.0;
+}
+
+double barrierOption::extremumTraj(string type) {//méthode inspirée de ce que t'as fait hugues, elle renvoie le max ou le min de chaque traj
+    double maxP = this->B-1;
+    double minP = this->B+1;
+    double S_jdt;
+    double dt = 1.0 / 365.0;
+    /*double epsilon = rand() / (RAND_MAX + 1.0); // Nombre aléatoire entre 0 et 1
+    double z = sqrt(-2.0 * log(epsilon)) * cos(2.0 * M_PI * epsilon); // Transformation de Box-Muller*/
+
+    // Calcul du prix du sous-jacent selon le modèle de diffusion géométrique
+    for (int j = 0; j < T*365; ++j) {
+            double z = generateN01();
+            S_jdt = S0*exp((r-pow(sigma, 2)/2.0)*(j*dt) + sigma*sqrt(j*dt)*z);
+            if (S_jdt > maxP) {
+                maxP = S_jdt;
+            }
+            else if (S_jdt < minP){
+                minP = S_jdt;
+            }
+        }
+    if (type=="CDI" or type=="CDO" or type=="PDI" or type=="PDO"){
+        return minP;
+    }
+    else {
+        return maxP;
+    }
+}
+
+bool barrierOption::barrierTouched(string type, double z){//teste si z a atteint la barrière en fonction du type
+    if (type=="CUI" or type=="PUI" or type=="PUO" or type=="CUO"){
+        return z >= this->B;
+    }
+    else {
+        return z <= this->B;
+    }
+}
+
+double barrierOption::barrierPayoff(string type, double z){//renvoie les payoff de l'option en fonction de si la barrière est touchée et du type de l'option 
+    double ST = this->S0*exp(this->r*this->T);
+    if (type=="CUI" or type=="CDI"){
+        if(barrierTouched(type, z)){
+            return fmax(0, ST-this->K);
+        }
+        else {
+            return 0.0;
+        }
+    }
+    else if (type=="CUO" or type=="CDO"){
+        if(barrierTouched(type, z)){
+            return 0.0;
+        }
+        else {
+            return fmax(0, ST-this->K);
+        }
+    }
+    else if (type=="PUI" or type=="PDI"){
+        if(barrierTouched(type, z)){
+            return fmax(0, this->K-ST);
+        }
+        else {
+            return 0.0;
+        }
+    }
+    else if (type=="PUO" or type=="PDO"){
+        if(barrierTouched(type, z)){
+            return 0.0;
+        }
+        else {
+            return fmax(0, this->K-ST);
+        }
+    }
+    return 0.0;
+}
+
+double barrierOption::MCbarrier(string type, int N){
+    srand(static_cast<unsigned>(time(nullptr)));
+    double SumPayoff = 0.0;
+    for (int i = 0; i < N; ++i) {
+        double simulatedPrice = extremumTraj(type);
+        double payoff = barrierPayoff(type, simulatedPrice);
+        SumPayoff += payoff;
+    }
+    double optionPrice = (SumPayoff / static_cast<double>(N)) * exp(-this->r * this->T);
+    cout<<"The barrier option price using Monte-Carlo is "<< optionPrice<<endl;
+    return 0.0;
+}
+
+
 double barrierOption::get_K(){
     return K;
 }
