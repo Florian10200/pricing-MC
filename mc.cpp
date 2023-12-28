@@ -35,23 +35,23 @@ europeanOption::europeanOption(double st, double sp, double vol, double mat, dou
     this -> maturity = mat;
     this -> txinteret = tx;}
 
-double europeanOption::get_strike() {
+double europeanOption::getstrike() {
     return strike;}
 
-double europeanOption::get_spot() {
+double europeanOption::getspot() {
     return spot;}
 
-double europeanOption::get_volatility() {
+double europeanOption::getvolatility() {
     return volatility;}
 
-double europeanOption::get_maturity() {
+double europeanOption::getmaturity() {
     return maturity;}
 
-double europeanOption::get_tx() {
+double europeanOption::gettx() {
     return txinteret;}
 
 
-double europeanOption::pricing_european_call_BS() { //pricing european call par BS
+double europeanOption::pricingCallBS() { //pricing european call par BS
     double T = maturity;
     double S0 = spot;
     double K = strike;
@@ -72,7 +72,7 @@ double europeanOption::pricing_european_call_BS() { //pricing european call par 
 }
 
 
-double europeanOption::delta_european_call() {
+double europeanOption::deltaCall() {
     double T = maturity;
     double S0 = spot;
     double K = strike;
@@ -89,7 +89,7 @@ double europeanOption::delta_european_call() {
 }
 
 
-double europeanOption::pricing_european_put_BS() { //pricing european put par BS
+double europeanOption::pricingPutBS() { //pricing european put par BS
     double T = maturity;
     double S0 = spot;
     double K = strike;
@@ -110,7 +110,7 @@ double europeanOption::pricing_european_put_BS() { //pricing european put par BS
 }
 
 
-double europeanOption::delta_european_put() {
+double europeanOption::deltaPut() {
     double T = maturity;
     double S0 = spot;
     double K = strike;
@@ -127,7 +127,7 @@ double europeanOption::delta_european_put() {
 }
 
 
-double europeanOption::pricing_european_call_MC(int N) { //pricing european call par MC
+double europeanOption::pricingCallMC(int N) { //pricing european call par MC
     double T = maturity;
     double S0 = spot;
     double K = strike;
@@ -151,7 +151,7 @@ double europeanOption::pricing_european_call_MC(int N) { //pricing european call
 }
 
 
-double europeanOption::pricing_european_put_MC(int N) { //pricing european put par MC
+double europeanOption::pricingPutMC(int N) { //pricing european put par MC
     double T = maturity;
     double S0 = spot;
     double K = strike;
@@ -184,20 +184,20 @@ lookbackOption::lookbackOption(double sp, double vol, double mat, double tx) {
     this -> maturity = mat;
     this -> txinteret = tx;}
 
-double lookbackOption::get_spot() {
+double lookbackOption::getspot() {
     return spot;}
 
-double lookbackOption::get_volatility() {
+double lookbackOption::getvolatility() {
     return volatility;}
 
-double lookbackOption::get_maturity() {
+double lookbackOption::getmaturity() {
     return maturity;}
 
-double lookbackOption::get_tx() {
+double lookbackOption::gettx() {
     return txinteret;}
     
     
-double lookbackOption::pricing_lookback_call_MC(int N) { //pricing lookback call par MC
+double lookbackOption::pricingCallMC(int N) { //pricing lookback call par MC
     double T = maturity;
     double S0 = spot;
     double sigma = volatility;
@@ -233,7 +233,7 @@ double lookbackOption::pricing_lookback_call_MC(int N) { //pricing lookback call
 }
 
 
-double lookbackOption::pricing_lookback_put_MC(int N) { //pricing lookbackput par MC
+double lookbackOption::pricingPutMC(int N) { //pricing lookbackput par MC
     double T = maturity;
     double S0 = spot;
     double sigma = volatility;
