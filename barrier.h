@@ -3,16 +3,17 @@
 using namespace std;
 
 double normalCDF(double x);
+double generateN01();
 
 class barrierOption{
 private:
-    double S0;//initial price
-    double K; //strike price
-    double T; //time until maturity
-    double r; //risk-free rate
-    double sigma; //volatility
-    double q; //Continuous return on dividends
-    double B; //barrier level
+    double spot;//initial price
+    double strike; //strike price
+    double maturity; //time until maturity
+    double txinteret; //risk-free rate
+    double volatility; //volatility
+    double dividends; //Continuous return on dividends
+    double barrier; //barrier level
 public:
     //we code the getter
     barrierOption (double S0, double K, double T, double r, double sigma, double q, double B); //constructor
@@ -30,4 +31,10 @@ public:
     double Put_DownAndIn_DownAndOut();
     double PriceCall();
     double PricePut();
+    bool barrierTouched(string type, double z);
+    double barrierPayoff(string type, double z);
+    double extremumTraj(string type);
+    double MCbarrier(string type, int N);
+    double simassetPrice();
+    double MC2(string type, int N);
 };
