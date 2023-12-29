@@ -27,9 +27,9 @@ class option { // General class for all the options
 
 // European option Pricing with analytic formula and Monte-Carlo---------------------------------------------------------------
 
-class europeanOption : public option { // Heritage from the class option
+class european_option : public option { // Heritage from the class option
     public:
-        europeanOption(double S_t, double K, double vol, double maturity, double tx);
+        european_option(double S_t, double K, double vol, double maturity, double tx);
         
         double pricing_european_call_BS(); //pricing european call with BS
         double pricing_european_put_BS(); //pricing european put with BS
