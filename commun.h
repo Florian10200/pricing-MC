@@ -67,7 +67,7 @@ class asian_option : public option {
 
 // For a barrier option------------------------------------------------------------------------------------------------
 
-class barrier_option : public option { // The Barrier option class has two more arguments : the Barrier B and the dividends q
+class barrier_option : public option { // The Barrier option class has two additional arguments : the Barrier B and the dividends q
     private:
         double q;
         double B;
@@ -75,19 +75,13 @@ class barrier_option : public option { // The Barrier option class has two more 
         barrier_option(double S_t, double K, double vol, double maturity, double tx, double q, double B);
         double get_q();
         double get_B();
+        double PriceCall();
+        double PricePut();
         double Call_UpAndIn_UpAndOut();
         double Call_DownAndIn_DownAndOut();
         double Put_UpAndIn_UpAndOut();
+        double Put_DownAndIn_DownAndOut();
 };
-
-
-
-
-
-
-
-
-
 
 
 #endif // option_pricing_h
