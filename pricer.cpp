@@ -1,7 +1,7 @@
-#ifndef option_pricing_cpp
-#define option_pricing_cpp
+#ifndef pricer_cpp
+#define pricer_cpp
 
-#include"option_pricing.h"
+#include"pricer.h"
 #include<random>
 #include<cmath>
 #include<iostream>
@@ -501,4 +501,4 @@ double barrier_option::Put_DownAndIn_DownAndOut(){
 
 
 
-#endif // option_pricing_cpp
+#endif // pricer_cpp
