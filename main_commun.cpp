@@ -33,7 +33,7 @@ int main(){
     
 // For a lookback option ----------------------------------------------------------------------------------------------------------------------------------
 
-    lookback_option option2(50.0, 52.0, 0.2, 0.5, 0.05);
+    lookback_option option2(50.0, 52.0, 0.2, 0.5, 0.05); // The strike price will not be used for this pricing
     
     cout<<"pricing lookback call option with MC : "<<option2.lookback_pricingCallMC(1000)<<endl; // Pricing with Monte-Carlo for a call and a put
     cout<<"pricing lookback put option with MC : "<<option2.lookback_pricingPutMC(1000)<<endl;
