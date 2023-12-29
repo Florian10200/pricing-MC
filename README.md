@@ -13,5 +13,7 @@ La structure de notre code est articulée autour de trois fichiers principaux. T
 # Auteurs
 
 Florian LAVA
+
 Hugues MATON
+
 Taddéo VIVET
