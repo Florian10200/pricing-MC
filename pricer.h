@@ -1,5 +1,5 @@
-#ifndef option_pricing_h
-#define option_pricing_h
+#ifndef pricer_h
+#define pricer_h
 #include<iostream>
 
 using namespace std;
@@ -84,4 +84,4 @@ class barrier_option : public option { // The Barrier option class has two addit
 };
 
 
-#endif // option_pricing_h
+#endif // pricer_h
