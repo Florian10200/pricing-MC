@@ -28,23 +28,23 @@ int main(){
     cout << "delat for a european put : " << option1.delta_european_put() << endl;
     
     cout << "pricing european call with Monte-Carlo : " << option1.pricing_european_call_MC(1000) << endl; // We price them with Monte-Carlo as well
-    cout << "pricing european put avec Monte-Carlo : " << option1.pricing_european_put_MC(1000) << endl;
+    cout << "pricing european put with Monte-Carlo : " << option1.pricing_european_put_MC(1000) << endl;
 
     
 // For a lookback option ----------------------------------------------------------------------------------------------------------------------------------
 
     lookback_option option2(50.0, 52.0, 0.2, 0.5, 0.05);
     
-    cout<<"pricing lookback call option avec MC : "<<option2.lookback_pricingCallMC(1000)<<endl; // Pricing with Monte-Carlo for a call and a put
-    cout<<"pricing lookback put option avec MC : "<<option2.lookback_pricingPutMC(1000)<<endl;
+    cout<<"pricing lookback call option with MC : "<<option2.lookback_pricingCallMC(1000)<<endl; // Pricing with Monte-Carlo for a call and a put
+    cout<<"pricing lookback put option with MC : "<<option2.lookback_pricingPutMC(1000)<<endl;
 
 
 // For an asian option --------------------------------------------------------------------------------------------------------------------------------
 
     asian_option option3(50.0, 52.0, 0.2, 0.5, 0.05);
 
-    cout<<"pricing asian call option avec MC : "<<option3.asian_pricingCallMC(1000)<<endl; // Pricing with Monte-Carlo for a call and a put
-    cout<<"pricing asian put option avec MC : "<<option3.asian_pricingPutMC(1000)<<endl;
+    cout<<"pricing asian call option with MC : "<<option3.asian_pricingCallMC(1000)<<endl; // Pricing with Monte-Carlo for a call and a put
+    cout<<"pricing asian put option with MC : "<<option3.asian_pricingPutMC(1000)<<endl;
 
     
 // For a barrier option -------------------------------------------------------------------------------------------------------------------------------------
