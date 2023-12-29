@@ -49,7 +49,7 @@ int main(){
     
 // For a barrier option -------------------------------------------------------------------------------------------------------------------------------------
 
-    barrier_option option4(50.0, 52.0, 0.2, 0.5, 0.05,33.3,44.4);
+    barrier_option option4(50.0, 52.0, 0.2, 0.5, 0.05,0,10);
     
     cout<<option4.Call_UpAndIn_UpAndOut()<<endl;
     cout<<option4.Call_DownAndIn_DownAndOut()<<endl;
