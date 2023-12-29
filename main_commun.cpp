@@ -7,7 +7,7 @@ int main(){
     
 // For a european option -----------------------------------------------------------------------------------------------------------------------------------------
 
-    european_option option1(50.0, 52.0, 0.2, 2.0, 0.05);
+    european_option option1(50.0, 52.0, 0.2, 0.5, 0.05);
     
     double S0 = option1.get_spot(); // We get the spot price at time 0
     double K = option1.get_strike(); // We get the strike price
@@ -33,23 +33,28 @@ int main(){
     
 // For a lookback option ----------------------------------------------------------------------------------------------------------------------------------
 
-    lookback_option option2(50.0, 52.0, 0.2, 2.0, 0.05);
+    lookback_option option2(50.0, 52.0, 0.2, 0.5, 0.05);
     
-    cout<<"pricing lookback call option avec MC : "<<option2.lookback_pricingCallMC(100)<<endl; // Pricing with Monte-Carlo for a call and a put
-    cout<<"pricing lookback put option avec MC : "<<option2.lookback_pricingPutMC(100)<<endl;
+    cout<<"pricing lookback call option avec MC : "<<option2.lookback_pricingCallMC(1000)<<endl; // Pricing with Monte-Carlo for a call and a put
+    cout<<"pricing lookback put option avec MC : "<<option2.lookback_pricingPutMC(1000)<<endl;
 
 
 // For an asian option --------------------------------------------------------------------------------------------------------------------------------
 
-    asian_option option3(50.0, 52.0, 0.2, 2.0, 0.05);
+    asian_option option3(50.0, 52.0, 0.2, 0.5, 0.05);
 
-    cout<<"pricing asian call option avec MC : "<<option3.asian_pricingCallMC(100)<<endl; // Pricing with Monte-Carlo for a call and a put
-    cout<<"pricing asian put option avec MC : "<<option3.asian_pricingPutMC(100)<<endl;
+    cout<<"pricing asian call option avec MC : "<<option3.asian_pricingCallMC(1000)<<endl; // Pricing with Monte-Carlo for a call and a put
+    cout<<"pricing asian put option avec MC : "<<option3.asian_pricingPutMC(1000)<<endl;
 
     
 // For a barrier option -------------------------------------------------------------------------------------------------------------------------------------
 
-    barrier_option option4(50.0, 52.0, 0.2, 2.0, 0.05,33.3,44.4);
+    barrier_option option4(50.0, 52.0, 0.2, 0.5, 0.05,33.3,44.4);
+    
+    cout<<option4.Call_UpAndIn_UpAndOut()<<endl;
+    cout<<option4.Call_DownAndIn_DownAndOut()<<endl;
+    cout<<option4.Put_UpAndIn_UpAndOut()<<endl;
+    cout<<option4.Put_DownAndIn_DownAndOut()<<endl;
     
 
 
