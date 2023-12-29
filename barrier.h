@@ -3,7 +3,6 @@
 using namespace std;
 
 double normalCDF(double x);
-double generateN01();
 
 class barrierOption{
 private:
@@ -25,16 +24,10 @@ public:
     double get_q();
     double get_B();
 
-    double Call_UpAndIn_UpAndOut();//fait
-    double Call_DownAndIn_DownAndOut();//fait
-    double Put_UpAndIn_UpAndOut();//fait
+    double Call_UpAndIn_UpAndOut();
+    double Call_DownAndIn_DownAndOut();
+    double Put_UpAndIn_UpAndOut();
     double Put_DownAndIn_DownAndOut();
     double PriceCall();
     double PricePut();
-    bool barrierTouched(string type, double z);
-    double barrierPayoff(string type, double z);
-    double extremumTraj(string type);
-    double MCbarrier(string type, int N);
-    double simassetPrice();
-    double MC2(string type, int N);
 };
