@@ -1,4 +1,4 @@
-#include"option_pricing.h"
+#include"pricer.h"
 #include<iostream>
 
 using namespace std;
