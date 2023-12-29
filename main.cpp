@@ -48,7 +48,10 @@ int main(){
 
     
 // For a barrier option -------------------------------------------------------------------------------------------------------------------------------------
-
+/*Cette partie du code renvoie le prix de toutes les options (CUI, PDO etc), cependant certaines options n'ont aucun 
+sens en fonction des différentes valeurs rentrées, par exemple une option Down and Out n'est pas pertinente si le spot 
+price et inférieur au niveau de barrière (l'option est déjà désactivée). C'est la raison pour laquelle certaines valeurs 
+peuvent être négative.*/
     barrier_option option4(50.0, 52.0, 1, 0.05, 0.2, 0.0, 49.0);
     
     cout<<option4.Call_UpAndIn_UpAndOut()<<endl;
